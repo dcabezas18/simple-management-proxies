@@ -17,6 +17,8 @@ class Proxies
     private $init;
     private $end;
     private $time;
+    private $client;
+    private $request;
 
     /**
      * Proxies constructor.
@@ -35,10 +37,11 @@ class Proxies
     public function get()
     {
         $this->proxy = $this->getProxyMinTime();
+        $this->init = microtime(true);
+        $this->getRequestMethod();
         $this->end = microtime(true);
         $this->getTimeToSave();
         $this->setProxyTime($this->time);
-        $this->init = microtime(true);
         return $this->proxy;
     }
 
@@ -74,9 +77,18 @@ class Proxies
     /**
      * @return Collection
      */
-    private function getProxyMinTime()
+    public function getProxyMinTime()
     {
         $minTime = $this->proxies->min('time');
         return $this->proxies->where('time', $minTime)->first();
+    }
+
+    public function setRequestMethod($request){
+        $this->request = $request;
+    }
+
+    public function getRequestMethod()
+    {
+        return $this->request;
     }
 }
