@@ -6,22 +6,19 @@
  * Date: 24/03/2018
  * Time: 13:02
  */
-use PHPUnit\Framework\TestCase;
-use dcabezas18\SimpleManagementProxies\Curl;
-use dcabezas18\SimpleManagementProxies\Proxies;
 
-class proxiesTests extends TestCase
+class proxiesTests extends \PHPUnit_Framework_TestCase
 {
 
     public function dataProvider()
     {
         return [
-            '192.168.1.1',
-            '192.168.1.2',
-            '192.168.1.3',
-            '192.168.1.4',
-            '192.168.1.5',
-            '192.168.1.6',
+            [[['192.168.1.1', 8080],
+            ['192.168.1.2', 8080],
+            ['192.168.1.3', 8080],
+            ['192.168.1.4', 8080],
+            ['192.168.1.5', 8080],
+            ['192.168.1.6', 8080]]]
         ];
     }
     /**
@@ -29,13 +26,13 @@ class proxiesTests extends TestCase
      */
     public function testManagement($proxies)
     {
-        $management = new Proxies($proxies);
+        $management = new dcabezas18\SimpleManagementProxies\Proxies($proxies);
         foreach ($proxies as $pr){
             $proxy = $management->getProxyMinTime();
-            $management->setRequestMethod(new Curl('www.google.es', $proxy));
+            $curl = new dcabezas18\SimpleManagementProxies\Curl();
+            $management->setRequestMethod($curl->request('www.google.es', $proxy));
             $lastUsedProxy = $management->get();
 
-            print_r($lastUsedProxy, true);
         }
     }
 }

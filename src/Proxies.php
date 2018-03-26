@@ -50,9 +50,13 @@ class Proxies
      */
     private function setProxies(array $proxies)
     {
-        $this->proxies = collect($proxies);
-        foreach ($this->proxies as $proxy){
-            $proxy->time = 0;
+        $this->proxies = collect();
+        foreach ($proxies as $key =>$proxy){
+            $pr = new \stdClass();
+            $pr->ip = $proxy[0];
+            if(!empty($proxy[1])) $pr->port = $proxy[1];
+            $pr->time = 0;
+            $this->proxies->put($key, $pr);
         }
     }
 
@@ -62,6 +66,7 @@ class Proxies
             $this->time = $this->end - $this->init;
         else $this->time = 0;
     }
+
     /**
      * @param $time
      */
