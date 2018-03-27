@@ -50,10 +50,17 @@ class Proxies
     private function setProxies(array $proxies)
     {
         $this->proxies = collect();
+
         foreach ($proxies as $key =>$proxy){
             $pr = new \stdClass();
-            $pr->ip = $proxy[0];
-            if(!empty($proxy[1])) $pr->port = $proxy[1];
+            $isAssoc = array_keys($proxy) !== range(0, count($proxy)-1);
+            if($isAssoc){
+                $pr->ip = $proxy['ip'];
+                if (!empty($proxy['port'])) $pr->port = $proxy['port'];
+            }else {
+                $pr->ip = $proxy[0];
+                if (!empty($proxy[1])) $pr->port = $proxy[1];
+            }
             $pr->time = 0;
             $this->proxies->put($key, $pr);
         }
