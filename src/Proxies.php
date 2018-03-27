@@ -17,8 +17,6 @@ class Proxies
     private $init;
     private $end;
     private $time;
-    private $client;
-    private $request;
 
     /**
      * Proxies constructor.
@@ -34,11 +32,12 @@ class Proxies
      * @internal param $url
      * @internal param array $options
      */
-    public function get()
+    public function get($url, array $options = [])
     {
         $this->proxy = $this->getProxyMinTime();
         $this->init = microtime(true);
-        $this->getRequestMethod();
+        $curl = new Curl();
+        $curl->request($url, $options, $this->proxy);
         $this->end = microtime(true);
         $this->getTimeToSave();
         $this->setProxyTime($this->time);
@@ -86,14 +85,5 @@ class Proxies
     {
         $minTime = $this->proxies->min('time');
         return $this->proxies->where('time', $minTime)->first();
-    }
-
-    public function setRequestMethod($request){
-        $this->request = $request;
-    }
-
-    public function getRequestMethod()
-    {
-        return $this->request;
     }
 }
