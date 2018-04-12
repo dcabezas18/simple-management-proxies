@@ -37,11 +37,11 @@ class Proxies
         $this->proxy = $this->getProxyMinTime();
         $this->init = microtime(true);
         $curl = new Curl();
-        $curl->request($url, $options, $this->proxy);
+        $html = $curl->request($url, $options, $this->proxy);
         $this->end = microtime(true);
         $this->getTimeToSave();
         $this->setProxyTime($this->time);
-        return $this->proxy;
+        return $html;
     }
 
     /**
