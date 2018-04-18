@@ -8,7 +8,7 @@
 
 namespace dcabezas18\SimpleManagementProxies;
 
-use Tightenco\Collect\Support\Collection;
+use Illuminate\Support\Collection;
 
 class Proxies
 {
